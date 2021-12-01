@@ -1,4 +1,5 @@
-import UserController from "../controllers/UserController";
+import UserController from "../controllers/UserController.js";
+import express from "express";
 const Router = express.Router();
 import {
   getToken,

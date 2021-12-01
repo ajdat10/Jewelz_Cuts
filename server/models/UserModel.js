@@ -1,4 +1,5 @@
-const mongoose = require("mongoose");
+import  Schema from "mongoose"
+import mongoose from "mongoose"
 
 const userSchema = mongoose.Schema(
   {
@@ -14,6 +15,10 @@ const userSchema = mongoose.Schema(
     password_digest: {
       type: String,
       required: true,
+    },
+    appointmentDate: {
+      type: Schema.Types.ObjectId,
+      ref: "appointments",
     },
   },
   {

@@ -21,9 +21,7 @@ const CONNECTION_URL = process.env.JEWELZ_CUTS_DB;
 mongoose
   .connect(CONNECTION_URL, {
     useNewUrlParser: true,
-    useFindAndModify: true,
     useUnifiedTopology: true,
-    useCreateIndex: true,
   })
   .then(() =>
     app.listen(PORT, () => console.log(`Server running on port: ${PORT}`))

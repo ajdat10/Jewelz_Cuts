@@ -1,11 +1,12 @@
-const Router = require('express').Router()
-const AppointmentController = require('../controllers/AppointmentController')
+import express from "express";
+const Router = express.Router();
+import {GetAppointments,GetUserAppointments, GetAppointmentById, CreateAppointment,UpdateAppointment, DeleteAppointment }  from "../controllers/AppointmentController.js"
 
-Router.get("/", AppointmentController.GetPosts);
-Router.get("/:appt_id", AppointmentController.GetPostById);
-Router.post("/:user_id", AppointmentController.CreatePost);
-Router.put("/:appt_id", AppointmentController.UpdatePost);
-Router.delete("/:apptt_id", AppointmentController.DeletePost);
-Router.get("/:user_id", AppointmentController.GetUserPosts);
+Router.get("/", GetAppointments);
+Router.get("/:appt_id", GetAppointmentById);
+Router.post("/:user_id", CreateAppointment);
+Router.put("/:appt_id", UpdateAppointment);
+Router.delete("/:apptt_id", DeleteAppointment);
+Router.get("/:user_id", GetUserAppointments);
 
-module.exports = Router;
+export default Router;

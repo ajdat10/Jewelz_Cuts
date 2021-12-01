@@ -1,14 +1,18 @@
-const mongoose = require("mongoose");
-
+import Schema from "mongoose";
+import mongoose from "mongoose";
 const appointmentSchema = mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
     },
-    date: {
+    appointmentDate: {
       type: Date,
       required: true,
+    },
+    user_id: {
+      type: Schema.Types.ObjectId,
+      ref: "users",
     },
   },
   {
