@@ -1,11 +1,11 @@
-import User from '../models/UserModel.js'
-import Appointment from '../models/AppointmentModel.js'
+import User from '../db/models/UserModel.js'
+import Appointment from '../db/models/AppointmentModel.js'
 
 import jwt from 'jsonwebtoken'
 import { checkPassword, generatePassword } from '../middleware/PasswordHandler.js'
 
 
-const GetProfile = async (req, res) => {
+export const GetProfile = async (req, res) => {
      try {
          const user = await User.findById(req.params.id)
          const appointments = await Appointment.find({ user: req.params.user_id })
@@ -15,7 +15,7 @@ const GetProfile = async (req, res) => {
      }
 }
  
-const CreateUser = async (req, res) => {
+export const CreateUser = async (req, res) => {
     try {
         const body = req.body
         const password_digest = await generatePassword(body.password)
@@ -31,7 +31,7 @@ const CreateUser = async (req, res) => {
     }
 }
 
-const SignInUser = async (req, res, next) => {
+export const SignInUser = async (req, res, next) => {
     try {
         const user = await User.findOne({ email: req.body.email })
         
@@ -49,18 +49,11 @@ const SignInUser = async (req, res, next) => {
     }
 }
 
-const RefreshSession = (req, res) => {
+export const RefreshSession = (req, res) => {
     try {
         const token = res.local.token
         res.send({user: jwt.decode(token), token: res.local.token})
     } catch (error) {
         throw error
     }
-}
-
-export default {
-    GetProfile,
-    CreateUser,
-    SignInUser,
-    RefreshSession
 }

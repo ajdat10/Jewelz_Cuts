@@ -1,5 +1,5 @@
-import User from "../models/UserModel.js";
-import Appointment from "../models/AppointmentModel.js";
+import User from "../db/models/UserModel.js";
+import Appointment from "../db/models/AppointmentModel.js";
 
 
 export const GetAppointments = async (req, res) => {

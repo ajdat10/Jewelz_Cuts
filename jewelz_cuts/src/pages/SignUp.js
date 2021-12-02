@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import TextInput from "../components/TextInput.js";
-import { __RegisterUser } from "../services/UserServices";
+import { __RegisterUser } from "../services/UserServices.js";
 import { Link } from "react-router-dom";
 // import "../styles/SignUp.css";
 
@@ -37,7 +37,6 @@ export default class Signup extends Component {
         container
         justify="center"
         style={{ textAlign: "center", marginTop: "-300px", padding: "400px" }}
-        className="signup "
       >
         <form className="flex-col" onSubmit={this.handleSubmit}>
           <TextInput
@@ -48,6 +47,14 @@ export default class Signup extends Component {
             onChange={this.handleChange}
             autoComplete="false"
           />
+            <TextInput
+              placeholder="Your Email"
+              name="email"
+              value={email}
+              type="email"
+              onChange={this.handleChange}
+              autoComplete="false"
+            />
           <TextInput
             placeholder="Password"
             type="password"
@@ -56,22 +63,9 @@ export default class Signup extends Component {
             onChange={this.handleChange}
             autoComplete="false"
           />
-          <TextInput
-            placeholder="Your Email"
-            name="email"
-            value={email}
-            type="email"
-            onChange={this.handleChange}
-            autoComplete="false"
-          />
 
-          <button
-            className="btn waves-effect waves-light red darken-3"
-            type="submit"
-            name="action"
-          >
+          <button onClick={this.handleSubmit}>
             Sign Up
-            <i className="material-icons right">directions_car</i>
           </button>
         </form>
       </div>

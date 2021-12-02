@@ -1,4 +1,4 @@
-import UserController from "../controllers/UserController.js";
+import {GetProfile, CreateUser, SignInUser, RefreshSession } from "../controllers/UserController.js";
 import express from "express";
 const Router = express.Router();
 import {
@@ -7,14 +7,14 @@ import {
   verifyToken,
 } from "../middleware/JwtHandler.js";
 
-Router.get("/:user_id", UserController.GetProfile);
-Router.post("/register", UserController.CreateUser);
-Router.post("/login", UserController.SignInUser, createToken);
+Router.get("/:user_id", GetProfile);
+Router.post("/register", CreateUser);
+Router.post("/login", SignInUser, createToken);
 Router.get(
   "/refresh/session",
   getToken,
   verifyToken,
-  UserController.RefreshSession
+  RefreshSession
 );
 
  export default Router;
