@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ReactDOM from 'react-dom';
 import {
   BrowserRouter as Router,
   Route,
@@ -9,6 +10,7 @@ import SignUp from "../pages/SignUp";
 import Home from "../pages/Home";
 import { __CheckSession } from "../services/UserServices.js";
 import Nav from "./Nav";
+import SignIn from '../pages/SignIn'
 
 class Routers extends Component {
   constructor() {
@@ -62,7 +64,8 @@ class Routers extends Component {
         <Nav />
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route path='/register' element={<SignUp/>}></Route>
+          <Route path='/register' element={<SignUp/>}/>
+          <Route path='/login' loction={(props) => (<SignIn toggleAuthenticated={this.toggleAuthenticated}{...props}/>)}/>
         </Routes>
       </div>
     );

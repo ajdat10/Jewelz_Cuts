@@ -1,21 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Nav = (props) => {
+export default ({ authenticated, currentUser, className, props }) => {
   // console.log(props.currentUser)
-  return (
-    <nav>
-      <div className="nav-wrapper  red darken-3">
-        <Link className="nav-active brand-logo center" to="/">
-          Auto Whisperers
+  return authenticated && currentUser ? (
+    <header className={className}>
+      <nav>
+        <div className="nav-wrapper  red darken-3">
+          <Link className="nav-active brand-logo center" to="#">
+            Welcome Back
         </Link>
-        {props.currentUser ? (
+        Welcome Back
+          {currentUser.name}
           <ul id="nav-mobile" className="right">
-            <li>
-              <Link className="nav-active" to="#">
-                Sign Out
-              </Link>
-            </li>
             <li>
               <Link className="nav-active" to="/main">
                 Questions Asked
@@ -26,24 +23,38 @@ const Nav = (props) => {
                 {props.currentUser.username}
               </Link>
             </li>
+            <li>
+              <Link className="nav-active" to="/" onClick={() => localStorage.clear}>
+                Sign Out
+              </Link>
+            </li>
           </ul>
-        ) : (
+        </div>
+      </nav>
+    </header>
+  ) : (
+      <header>
+        <nav>
+          <div className="nav-wrapper red darken-3">
+          <Link className="nav-active brand-logo center" to="/">
+           Jewelz Cuts
+        </Link>
           <ul id="nav-mobile" className="right">
-            <li>
-              <Link className="nav-active" to="/login">
-                Sign In
+              <li>
+                <Link className="nav-active" to="/login">
+                  Sign In
               </Link>
-            </li>
-            <li>
-              <Link className="nav-active" to="/register">
-                Sign Up
+              </li>
+              <li>
+                <Link className="nav-active" to="/register">
+                  Sign Up
               </Link>
-            </li>
-          </ul>
-        )}
-      </div>
-    </nav>
-  );
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>
+    )
 };
 
-export default Nav;
+

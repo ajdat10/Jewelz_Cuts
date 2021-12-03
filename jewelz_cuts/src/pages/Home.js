@@ -2,6 +2,6 @@ import React from "react";
 
 export default () => {
     return (
-        <h1>Hi</h1>
+        <h1>Joanna's Ass Smells</h1>
     )
 }
