@@ -64,8 +64,17 @@ class Routers extends Component {
         <Nav />
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route path='/register' element={<SignUp/>}/>
-          <Route path='/login' element={<SignIn />}/>
+          <Route path="/register" element={<SignUp />} />
+          <Route
+            path="/login"
+            element={
+              <SignIn
+                currentUser={this.state.currentUser}
+                authenticated={this.state.authenticated}
+                toggleAuthenticated={this.toggleAuthenticated}
+              />
+            }
+          />
         </Routes>
       </div>
     );

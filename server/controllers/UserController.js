@@ -40,8 +40,8 @@ export const SignInUser = async (req, res, next) => {
                 _id: user._id,
                 name: user.name,
             }
-            res.local.payload = payload
-            return next()
+            res.locals.payload = payload;
+            return next();
         }
         res.status(401).send({ msg: 'No No No, Think again'})
     } catch (error) {
