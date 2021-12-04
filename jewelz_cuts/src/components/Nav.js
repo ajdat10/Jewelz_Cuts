@@ -6,11 +6,11 @@ export default ({ authenticated, currentUser, className, props }) => {
   return authenticated && currentUser ? (
     <header className={className}>
       <nav>
-        <div className="nav-wrapper  red darken-3">
+        <div className="nav-wrapper  blue darken-4">
           <Link className="nav-active brand-logo center" to="#">
             Welcome Back
-        </Link>
-        Welcome Back
+          </Link>
+          Welcome Back
           {currentUser.name}
           <ul id="nav-mobile" className="right">
             <li>
@@ -24,7 +24,11 @@ export default ({ authenticated, currentUser, className, props }) => {
               </Link>
             </li>
             <li>
-              <Link className="nav-active" to="/" onClick={() => localStorage.clear}>
+              <Link
+                className="nav-active"
+                to="/"
+                onClick={() => localStorage.clear}
+              >
                 Sign Out
               </Link>
             </li>
@@ -33,28 +37,26 @@ export default ({ authenticated, currentUser, className, props }) => {
       </nav>
     </header>
   ) : (
-      <header>
-        <nav>
-          <div className="nav-wrapper red darken-3">
+    <header>
+      <nav>
+        <div className="nav-wrapper blue darken-4">
           <Link className="nav-active brand-logo center" to="/">
-           Jewelz Cuts
-        </Link>
+            Jewelz Cuts
+          </Link>
           <ul id="nav-mobile" className="right">
-              <li>
-                <Link className="nav-active" to="/login">
-                  Sign In
+            <li>
+              <Link className="nav-active" to="/login">
+                Sign In
               </Link>
-              </li>
-              <li>
-                <Link className="nav-active" to="/register">
-                  Sign Up
+            </li>
+            <li>
+              <Link className="nav-active" to="/register">
+                Sign Up
               </Link>
-              </li>
-            </ul>
-          </div>
-        </nav>
-      </header>
-    )
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+  );
 };
-
-

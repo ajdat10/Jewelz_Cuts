@@ -1,7 +1,6 @@
 import User from "../db/models/UserModel.js";
 import Appointment from "../db/models/AppointmentModel.js";
 
-
 export const GetAppointments = async (req, res) => {
   try {
     const appointment = await Appointment.find();
@@ -72,5 +71,3 @@ export const UpdateAppointment = async (req, res) => {
     throw error;
   }
 };
-
-

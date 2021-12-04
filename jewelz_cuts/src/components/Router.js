@@ -65,7 +65,7 @@ class Routers extends Component {
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route path='/register' element={<SignUp/>}/>
-          <Route path='/login' loction={(props) => (<SignIn toggleAuthenticated={this.toggleAuthenticated}{...props}/>)}/>
+          <Route path='/login' element={<SignIn />}/>
         </Routes>
       </div>
     );
