@@ -17,17 +17,17 @@ export default class SignIn extends Component {
   };
 
   handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
-      const loginData = await __LoginUser(this.state);
+      const loginData = await __LoginUser(this.state)
       // console.log(loginData)
       this.props.toggleAuthenticated(true, loginData.user, () =>
-        this.props.history.push("/profile")
-      );
+        this.props.history.push('/profile')
+      )
     } catch (error) {
-      this.setState({ formError: true });
+      this.setState({ formError: true })
     }
-  };
+  }
   render() {
     const { email, password } = this.state;
     return (

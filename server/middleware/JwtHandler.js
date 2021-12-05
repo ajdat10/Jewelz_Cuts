@@ -6,7 +6,7 @@ dotenv.config();
 const secretKey = process.env.SECRET_KEY
 
 export const getToken = (req, res, next) => {
-    const taken = req.headers['authorization'].split('')(1)
+    const token = req.headers['authorization'].split('')(1)
     res.locals.token = token
     next()
 }

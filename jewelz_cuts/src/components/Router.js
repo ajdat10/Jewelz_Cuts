@@ -11,6 +11,7 @@ import Home from "../pages/Home";
 import { __CheckSession } from "../services/UserServices.js";
 import Nav from "./Nav";
 import SignIn from '../pages/SignIn'
+import Profile from '../pages/Profile'
 
 class Routers extends Component {
   constructor() {
@@ -60,6 +61,10 @@ class Routers extends Component {
   };
   render() {
     return (
+      <main>
+        {this.state.pageLoading ? (
+          <h3>Loading...</h3>
+        ) : (
       <div>
         <Nav />
         <Routes>
@@ -72,11 +77,14 @@ class Routers extends Component {
                 currentUser={this.state.currentUser}
                 authenticated={this.state.authenticated}
                 toggleAuthenticated={this.toggleAuthenticated}
+                
               />
             }
           />
         </Routes>
       </div>
+        )}
+      </main>
     );
   }
 }
