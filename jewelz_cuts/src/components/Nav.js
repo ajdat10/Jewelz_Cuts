@@ -1,62 +1,44 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default ({ authenticated, currentUser, className, props }) => {
-  // console.log(props.currentUser)
-  return authenticated && currentUser ? (
-    <header className={className}>
+export default (props) => {
+  return ( props.currentUser ? 
       <nav>
         <div className="nav-wrapper  blue darken-4">
-          <Link className="nav-active brand-logo center" to="#">
-            Welcome Back
-          </Link>
-          Welcome Back
-          {currentUser.name}
+          <Link className="nav-active brand-logo center" to="#">Welcome Back</Link>
           <ul id="nav-mobile" className="right">
-            <li>
-              <Link className="nav-active" to="/main">
-                Questions Asked
-              </Link>
-            </li>
-            <li>
-              <Link className="nav-active" to="/profile">
-                {props.currentUser.username}
-              </Link>
-            </li>
-            <li>
-              <Link
-                className="nav-active"
-                to="/"
-                onClick={() => localStorage.clear}
-              >
-                Sign Out
-              </Link>
+            <li><Link className="nav-active" to="/" onClick={() => localStorage.clear}>Sign Out</Link>
             </li>
           </ul>
         </div>
       </nav>
-    </header>
-  ) : (
-    <header>
-      <nav>
-        <div className="nav-wrapper blue darken-4">
-          <Link className="nav-active brand-logo center" to="/">
-            Jewelz Cuts
+
+   : 
+
+        <nav>
+          <div className="nav-wrapper blue darken-4">
+            <Link className="nav-active brand-logo center" to="/">
+              Jewelz Cuts
           </Link>
-          <ul id="nav-mobile" className="right">
-            <li>
-              <Link className="nav-active" to="/login">
-                Sign In
+            <ul id="nav-mobile" className="right">
+              <li>
+                <Link className="nav-active" to="/login">
+                  Sign In
               </Link>
-            </li>
-            <li>
-              <Link className="nav-active" to="/register">
-                Sign Up
+              </li>
+              <li>
+                <Link className="nav-active" to="/register">
+                  Sign Up
               </Link>
-            </li>
-          </ul>
-        </div>
-      </nav>
-    </header>
-  );
+              </li>
+            </ul>
+          </div>
+        </nav>
+    );
 };
+
+{/* <li>
+  <Link className="nav-active" to="/profile">
+    {props.currentUser.name}
+  </Link>
+</li> */}

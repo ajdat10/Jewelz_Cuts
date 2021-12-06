@@ -2,21 +2,14 @@ import React, { Component } from 'react'
 // import Card from '../components/Card'
 import { __DeleteAppointment } from '../services/AppointmentServices'
 import { __GetProfile } from '../services/UserServices'
+import Nav from '../components/Nav.js'
 
-export default class Profile extends Component {
-  constructor() {
-    super()
-    this.state = {
-      postFetchError: false,
-      appointments: []
-    }
-  }
+export default function Profile(props){
+ 
 
-  componentDidMount() {
-    this.getAppointments()
-  }
+  
 
-  getAppointments = async () => {
+  const getAppointments = async () => {
     try {
       console.log(this.props)
       const profileData = await __GetProfile(this.props.currentUser._id)
@@ -26,7 +19,7 @@ export default class Profile extends Component {
     }
   }
 
-  deleteAppointment = async (id) => {
+  const deleteAppointment = async (id) => {
     try {
       const appointmentsToKeep = this.state.posts.filter((appointment) => appointment._id !== id)
       this.setState({ appointments: appointmentsToKeep })
@@ -36,7 +29,6 @@ export default class Profile extends Component {
     }
   }
 
-  render() {
     return (
       <div className="profile">
           <h1>Hi</h1>
@@ -79,5 +71,4 @@ export default class Profile extends Component {
         </div> */}
       </div>
     )
-  }
 }
