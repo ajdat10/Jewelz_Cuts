@@ -1,61 +1,63 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import TextInput from "../components/TextInput.js";
 import { __LoginUser } from "../services/UserServices.js";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import Profile from "./Profile.js";
 
-export default class SignIn extends Component {
-  constructor() {
-    super();
-    this.state = {
-      email: "",
-      password: "",
-      formError: false,
-    };
-  }
+function SignIn(props){
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [formError, setFormError] = useState(false);
+  let navigate = useNavigate();
 
-  handleChange = ({ target }) => {
-    this.setState({ [target.name]: target.value, formError: false });
+  const handleEmail = ({ target }) => {
+    setEmail(target.value);
+    setFormError(false);
   };
 
-  handleSubmit = async (e) => {
-    e.preventDefault()
+  const handlePassword = ({ target }) => {
+    setPassword(target.value);
+    setFormError(false);
+  };
+
+  async function handleSubmit(e){
+    e.preventDefault();
     try {
-      const loginData = await __LoginUser(this.state)
-      // console.log(loginData)
-      this.props.toggleAuthenticated(true, loginData.user, () =>
-        this.props.history.push('/profile')
-      )
+      const loginData = await __LoginUser(email, password)
+      props.toggleAuthenticated(true, loginData.user)
+      navigate('/profile')
     } catch (error) {
-      this.setState({ formError: true })
+      setFormError(true);
     }
-  }
-  render() {
-    const { email, password } = this.state;
-    return (
-      <div
-        className="signin flex-col"
-        container
-        justify="center"
-        style={{ textAlign: "center", marginTop: "-300px", padding: "400px" }}
-      >
-        <form className="flex-col" onSubmit={this.handleSubmit}>
-          <TextInput
-            placeholder="Your Email"
-            name="email"
-            type="email"
-            value={email}
-            onChange={this.handleChange}
-          />
-          <TextInput
-            placeholder="Password"
-            name="password"
-            type="password"
-            value={password}
-            onChange={this.handleChange}
-          />
-          <button>Sign In</button>
-          {this.state.formError ? <p>Error While Logging In</p> : <p></p>}
-        </form>
-      </div>
-    );
-  }
-}
+  };
+  return (
+    <div
+      className="signin flex-col"
+      container
+      justify="center"
+      style={{ textAlign: "center", marginTop: "-300px", padding: "400px" }}
+    >
+      <form className="flex-col" onSubmit={handleSubmit}>
+        <TextInput
+          placeholder="Your Email"
+          name="email"
+          type="email"
+          value={email}
+          onChange={handleEmail}
+        />
+        <TextInput
+          placeholder="Password"
+          name="password"
+          type="password"
+          value={password}
+          onChange={handlePassword}
+        />
+        <br />
+        <button onSubmit={handleSubmit}>Sign In</button>
+        {this.state.formError ? <p>Error While Logging In</p> : <p></p>}
+      </form>
+    </div>
+  );
+};
+
+export default SignIn

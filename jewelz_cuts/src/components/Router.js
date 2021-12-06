@@ -1,17 +1,18 @@
 import React, { Component } from "react";
-import ReactDOM from 'react-dom';
+import ReactDOM from "react-dom";
 import {
   BrowserRouter as Router,
   Route,
   Routes,
   NavLink,
+  Navigate,
 } from "react-router-dom";
 import SignUp from "../pages/SignUp";
 import Home from "../pages/Home";
 import { __CheckSession } from "../services/UserServices.js";
 import Nav from "./Nav";
-import SignIn from '../pages/SignIn'
-import Profile from '../pages/Profile'
+import SignIn from "../pages/SignIn";
+import Profile from "../pages/Profile";
 
 class Routers extends Component {
   constructor() {
@@ -25,7 +26,7 @@ class Routers extends Component {
   verifyTokenValid = async () => {};
 
   toggleAuthenticated = (value, user, done) => {
-    this.setState({ authenticated: value, currentUser: user }, () => done());
+    this.setState({ authenticated: value, currentUser: user });
   };
 
   componentDidMount() {
@@ -45,7 +46,7 @@ class Routers extends Component {
             currentUser: session.user,
             authenticated: true,
           },
-          () => this.props.history.push("/main")
+          () => this.props.history.push(window.location.pathname)
         );
       } catch (error) {
         this.setState({ currentUser: null, authenticated: false });
@@ -56,33 +57,29 @@ class Routers extends Component {
     }
   };
 
-  toggleAuthenticated = (value, user, done) => {
-    this.setState({ authenticated: value, currentUser: user }, () => done());
-  };
   render() {
     return (
       <main>
         {this.state.pageLoading ? (
           <h3>Loading...</h3>
         ) : (
-      <div>
-        <Nav />
-        <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route path="/register" element={<SignUp />} />
-          <Route
-            path="/login"
-            element={
-              <SignIn
-                currentUser={this.state.currentUser}
-                authenticated={this.state.authenticated}
-                toggleAuthenticated={this.toggleAuthenticated}
-                
+          <div>
+            <Nav />
+            <Routes>
+              <Route exact path="/" element={<Home />} />
+              <Route path="/register" element={<SignUp />} />
+              <Route
+                path="/login" element={
+                  <SignIn
+                    currentUser={this.state.currentUser}
+                    authenticated={this.state.authenticated}
+                    toggleAuthenticated={this.toggleAuthenticated}
+                  />
+                }
               />
-            }
-          />
-        </Routes>
-      </div>
+              <Route path="/profile" element={<Profile />} />
+            </Routes>
+          </div>
         )}
       </main>
     );
