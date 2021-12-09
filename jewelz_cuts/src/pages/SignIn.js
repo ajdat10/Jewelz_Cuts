@@ -54,7 +54,7 @@ function SignIn(props){
         />
         <br />
         <button onSubmit={handleSubmit}>Sign In</button>
-        {this.state.formError ? <p>Error While Logging In</p> : <p></p>}
+        {formError ? <p>Error While Logging In</p> : <p></p>}
       </form>
     </div>
   );
