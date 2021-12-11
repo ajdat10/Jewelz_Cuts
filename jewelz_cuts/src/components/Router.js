@@ -1,55 +1,57 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  NavLink,
-  Navigate,
-} from "react-router-dom";
+import { Switch, Route, withRouter, useHistory } from "react-router-dom";
 import SignUp from "../pages/SignUp";
 import Home from "../pages/Home";
 import { __CheckSession } from "../services/UserServices.js";
 import Nav from "./Nav";
 import SignIn from "../pages/SignIn";
 import Profile from "../pages/Profile";
+import Layout from "./Layout";
+import ProtectedRoute from "./ProtectedRoute";
+import CreateAppointment from '../pages/CreateAppointment'
+function Routers(props) {
+  // constructor() {
+  //   super();
+  //   this.state = {
+  //     authenticated: false,
+  //     currentUser: null,
+  //     pageLoading: true,
+  //   };
+  // }
 
-class Routers extends Component {
-  constructor() {
-    super();
-    this.state = {
-      authenticated: false,
-      currentUser: null,
-      pageLoading: true,
-    };
+  const [authenticated, setAuthenticated] = useState(false)
+  const [currentUser, setCurrentUser] = useState(null)
+  const [pageLoading, setPageLoading] = useState(true)
+
+  const history = useHistory();
+
+
+  useEffect(() => {
+    setPageLoading(false)
+    verifyTokenValid()
+  }, [])
+
+
+
+  const toggleAuthenticated = (value, user) => {
+    setAuthenticated(value)
+    setCurrentUser(user)
   }
-  verifyTokenValid = async () => {};
 
-  toggleAuthenticated = (value, user, done) => {
-    this.setState({ authenticated: value, currentUser: user });
-  };
 
-  componentDidMount() {
-    //invoke verifyTokenValid request
-    this.verifyTokenValid();
-    this.setState({ pageLoading: false });
-  }
-
-  verifyTokenValid = async () => {
+  const verifyTokenValid = async () => {
     const token = localStorage.getItem("token");
     if (token) {
       try {
         const session = await __CheckSession();
         console.log("session", session);
-        this.setState(
-          {
-            currentUser: session.user,
-            authenticated: true,
-          },
-          () => this.props.history.push(window.location.pathname)
-        );
+        setCurrentUser(session.user)
+        setAuthenticated(true)
+        history(window.location.pathname)
       } catch (error) {
-        this.setState({ currentUser: null, authenticated: false });
+        setCurrentUser(null)
+        setAuthenticated(false)
         localStorage.clear();
       }
       // Send Api request to verify token
@@ -57,33 +59,77 @@ class Routers extends Component {
     }
   };
 
-  render() {
-    return (
-      <main>
-        {this.state.pageLoading ? (
-          <h3>Loading...</h3>
-        ) : (
-          <div>
-            <Nav />
-            <Routes>
-              <Route exact path="/" element={<Home />} />
-              <Route path="/register" element={<SignUp />} />
-              <Route
-                path="/login" element={
-                  <SignIn
-                    currentUser={this.state.currentUser}
-                    authenticated={this.state.authenticated}
-                    toggleAuthenticated={this.toggleAuthenticated}
-                  />
-                }
-              />
-              <Route path="/profile" element={<Profile />} />
-            </Routes>
-          </div>
-        )}
-      </main>
-    );
-  }
+  return (
+    <main>
+      {pageLoading ? (
+        <h3>Loading...</h3>
+      ) : (
+        <Layout
+          {...props}
+          currentUser={currentUser}
+          authenticated={authenticated}
+        >
+          <Switch>
+            <Route
+              exact
+              path="/"
+              component={() => (
+                <Home
+                  currentUser={currentUser}
+                  authenticated={authenticated}
+                  toggleAuthenticated={toggleAuthenticated}
+                />
+              )}
+            />
+            <Route
+              path="/register"
+              component={(props) => (
+                <SignUp
+                  {...props}
+                  toggleAuthenticated={toggleAuthenticated}
+                  currentUser={currentUser}
+                  authenticated={authenticated}
+                />
+              )}
+            />
+            <Route
+              path="/login"
+              component={() => (
+                <SignIn
+                  toggleAuthenticated={toggleAuthenticated}
+                  currentUser={currentUser}
+                  authenticated={authenticated}
+                />
+              )}
+            />
+            <ProtectedRoute
+              authenticated={authenticated}
+              path="/profile"
+              component={() => (
+                <Profile
+                  {...props}
+                  toggleAuthenticated={toggleAuthenticated}
+                  currentUser={currentUser}
+                  authenticated={authenticated}
+                />
+              )}
+            />
+            <ProtectedRoute
+              authenticated={authenticated}
+              path="/create"
+              component={(props) => (
+                <CreateAppointment
+                  currentUser={currentUser}
+                  authenticated={authenticated}
+                  {...props}
+                />
+              )}
+            />
+          </Switch>
+        </Layout>
+      )}
+    </main>
+  );
 }
 
-export default Routers;
+export default withRouter(Routers);

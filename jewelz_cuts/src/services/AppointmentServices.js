@@ -47,3 +47,13 @@ export const __DeleteAppointment = async (apptId) => {
     throw error
   }
 }
+
+
+export const __CreateAppointment = async (formData, userId, apptId) => {
+  try {
+    const res = await ApiClient.post(`/appt/create/${userId}`, formData)
+    return res.data
+  } catch (error) {
+      throw error
+  }
+}

@@ -1,46 +1,74 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from "react";
 // import Card from '../components/Card'
-import { __DeleteAppointment } from '../services/AppointmentServices'
-import { __GetProfile } from '../services/UserServices'
+import { __DeleteAppointment } from "../services/AppointmentServices";
+import { __GetProfile } from "../services/UserServices";
+import { __CheckSession } from "../services/UserServices.js";
 
-export default class Profile extends Component {
-  constructor() {
-    super()
-    this.state = {
-      postFetchError: false,
-      appointments: []
-    }
-  }
+import Nav from "../components/Nav.js";
 
-  componentDidMount() {
-    this.getAppointments()
-  }
+export default ( props ) => {
 
-  getAppointments = async () => {
+  const [authenticated, setAuthenticated] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [pageLoading, setPageLoading] = useState(true);
+
+
+
+  useEffect(() => {
+    setPageLoading(false);
+    verifyTokenValid();
+  }, []);
+
+  const toggleAuthenticated = (value, user) => {
+    setAuthenticated(value);
+    setCurrentUser(user);
+  };
+  
+  const getAppointments = async () => {
     try {
-      console.log(this.props)
-      const profileData = await __GetProfile(this.props.currentUser._id)
-      this.setState({ appointments: profileData.appointments })
+      console.log(this.props);
+      const profileData = await __GetProfile(this.props.currentUser._id);
+      this.setState({ appointments: profileData.appointments });
     } catch (error) {
-      this.setState({ postFetchError: true })
+      this.setState({ postFetchError: true });
     }
-  }
+  };
 
-  deleteAppointment = async (id) => {
+  const deleteAppointment = async (id) => {
     try {
-      const appointmentsToKeep = this.state.posts.filter((appointment) => appointment._id !== id)
-      this.setState({ appointments: appointmentsToKeep })
-      await __DeleteAppointment(id)
+      const appointmentsToKeep = this.state.posts.filter(
+        (appointment) => appointment._id !== id
+      );
+      this.setState({ appointments: appointmentsToKeep });
+      await __DeleteAppointment(id);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
-  render() {
-    return (
-      <div className="profile">
-          <h1>Hi</h1>
-        {/* <div>
+  const verifyTokenValid = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const session = await __CheckSession();
+        console.log("session", session);
+        setCurrentUser(session.user);
+        setAuthenticated(true);
+        
+      } catch (error) {
+        setCurrentUser(null);
+        setAuthenticated(false);
+        localStorage.clear();
+      }
+      // Send Api request to verify token
+      // if token valid should set a user to state
+    }
+  };
+
+  return (
+    <div className="profile">
+      <h1>Hi, {props.currentUser.name}</h1>
+      {/* <div>
           {this.state.posts.length ? (
             <div className="post-content wrapper flex-row">
               {this.state.posts.map((post) => (
@@ -77,7 +105,6 @@ export default class Profile extends Component {
             <div className="span message">No Posts</div>
           )}
         </div> */}
-      </div>
-    )
-  }
+    </div>
+  );
 }

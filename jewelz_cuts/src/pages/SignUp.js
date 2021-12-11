@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import TextInput from "../components/TextInput.js";
+import Nav from "../components/Nav.js"
 import { __RegisterUser } from "../services/UserServices.js";
 import { Link } from "react-router-dom";
 // import "../styles/SignUp.css";
@@ -32,21 +33,22 @@ export default class Signup extends Component {
   render() {
     const { name, password, email } = this.state;
     return (
-      <div
-        className="signup"
-        container
-        justify="center"
-        style={{ textAlign: "center", marginTop: "-300px", padding: "400px" }}
-      >
-        <form className="flex-col" onSubmit={this.handleSubmit}>
-          <TextInput
-            placeholder="Name or Nickname your known by:"
-            type="text"
-            name="name"
-            value={name}
-            onChange={this.handleChange}
-            autoComplete="false"
-          />
+      <>
+        <div
+          className="signup"
+          container
+          justify="center"
+          style={{ textAlign: "center", marginTop: "-300px", padding: "400px" }}
+        >
+          <form className="flex-col" onSubmit={this.handleSubmit}>
+            <TextInput
+              placeholder="Name or Nickname your known by:"
+              type="text"
+              name="name"
+              value={name}
+              onChange={this.handleChange}
+              autoComplete="false"
+            />
             <TextInput
               placeholder="Your Email"
               name="email"
@@ -55,20 +57,21 @@ export default class Signup extends Component {
               onChange={this.handleChange}
               autoComplete="false"
             />
-          <TextInput
-            placeholder="Password"
-            type="password"
-            name="password"
-            value={password}
-            onChange={this.handleChange}
-            autoComplete="false"
-          />
+            <TextInput
+              placeholder="Password"
+              type="password"
+              name="password"
+              value={password}
+              onChange={this.handleChange}
+              autoComplete="false"
+            />
 
-          <button onClick={this.handleSubmit}>
-            Sign Up
+            <button onClick={this.handleSubmit}>
+              Sign Up
           </button>
-        </form>
-      </div>
+          </form>
+        </div>
+      </>
     );
   }
 }
